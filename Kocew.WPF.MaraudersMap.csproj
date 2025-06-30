@@ -11,15 +11,28 @@
         <Authors>Zhivko Kocev</Authors>
         <Company>Kocew</Company>
         <Description>A lightweight navigation solution for WPF applications.</Description>
-        <PackageTags>navigation,wpf,marauders,map</PackageTags>
+        <PackageTags>navigation,wpf,mvvm,region,marauders,map</PackageTags>
         <RepositoryUrl>https://github.com/zhivko-kocev/marauders-map</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Copyright>Copyright (c) Kocew 2025</Copyright>
+
+        <IsPackable>true</IsPackable>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+        <PackageReference Include="CommunityToolkit.Mvvm"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+        <None Include="LICENSE" Pack="true" PackagePath=""/>
     </ItemGroup>
 
 </Project>
