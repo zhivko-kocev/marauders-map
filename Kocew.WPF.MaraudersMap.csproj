@@ -5,9 +5,12 @@
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
         <ImplicitUsings>enable</ImplicitUsings>
+        <AssemblyName>Kocew.WPF.MaraudersMap</AssemblyName>
+        <RootNamespace>Kocew.WPF.MaraudersMap</RootNamespace>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
         <PackageId>kocew.marauders-map</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <Authors>Zhivko Kocev</Authors>
         <Company>Kocew</Company>
         <Description>A lightweight navigation solution for WPF applications.</Description>
@@ -26,8 +29,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommunityToolkit.Mvvm"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
     </ItemGroup>
 
     <ItemGroup>

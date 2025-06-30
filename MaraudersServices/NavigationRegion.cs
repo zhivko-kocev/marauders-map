@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CommunityToolkit.Mvvm.Messaging;
 using Kocew.WPF.MaraudersMap.MaraudersEntities;
-using Kocew.WPF.MaraudersMap.MarauderUtils;
+using Kocew.WPF.MaraudersMap.MaraudersUtils;
 
 namespace Kocew.WPF.MaraudersMap.MaraudersServices;
 

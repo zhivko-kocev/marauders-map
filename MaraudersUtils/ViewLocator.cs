@@ -2,7 +2,7 @@ using System.Windows.Controls;
 using Kocew.WPF.MaraudersMap.MaraudersServices;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Kocew.WPF.MaraudersMap.MarauderUtils;
+namespace Kocew.WPF.MaraudersMap.MaraudersUtils;
 
 /// <summary>
 /// Resolves Views from ViewModels using naming conventions.
