@@ -1,7 +1,3 @@
-Certainly! Here's the updated and cleaned-up **README** for the **`kocew.marauders-map`** package, incorporating the new steps and project details. I've renamed the package and made the necessary adjustments:
-
----
-
 <div align="center">
 
 # 🧭 **Kocew\.Marauders-Map**
