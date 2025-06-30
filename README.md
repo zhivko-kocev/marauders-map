@@ -64,12 +64,12 @@ Services.GetRequiredService<MainWindow>().Show();
 
 ### 3. Define Navigation Region in Your Window
 
-In the `MainWindow.xaml`, define a **`ContentControl`** for the navigation region and bind it to a named region:
+In the `MainWindow.xaml`, define a **`ContentControl`** for the navigation region and bind it to a named region (StartupViewModel is set only on the Control u want to be the host when the app is starting):
 
 ```xml
 <Window xmlns:map="clr-namespace:Kocew.MaraudersMap;assembly=Kocew.Marauders-Map" ...>
-    <!-- The Name must match the region name you navigate to -->
-    <ContentControl map:MarauderNavRegion.Name="HomeView" map:MarauderNavRegion.IsDefault="True"/>
+    <ContentControl nav:NavigationRegion.RegionName="MainContent"
+                    nav:NavigationRegion.StartupViewModel="{x:Type vm:HomeViewModel}"/>
 </Window>
 ```
 
@@ -88,7 +88,6 @@ For nested regions, add **`ContentControl`** elements within your `UserControl` 
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <TextBlock Text="{Binding Title}" FontSize="20" Margin="10"/>
             <Button Content="Settings" Command="{Binding NavigateCommand}" CommandParameter="{x:Type root:SettingsViewModel}" />
             <Button Content="FirstNested" Command="{Binding NestedNavigateCommand}" CommandParameter="{x:Type nested:NestedFirstViewModel}" />
             <Button Content="SecondNested" Command="{Binding NestedNavigateCommand}" CommandParameter="{x:Type nested:NestedSecondViewModel}" />
@@ -161,7 +160,7 @@ YourApp/
 - ✅ Convention-based ViewModel ↔ View mapping
 - 🔜 Navigation history
 - 🔜 Lifecycle events (OnNavigatedTo, OnNavigatedFrom)
-- 🔜 Parameter passing
+- ✅ Parameter passing
 - 🔜 Animated transitions
 
 ---
