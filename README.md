@@ -1,16 +1,16 @@
-Thanks! Based on your process and the code you shared, here's a **cleaned-up, professional README refactor** that reflects your actual setup steps with clarity and purpose.
+Certainly! Here's the updated and cleaned-up **README** for the **`kocew.marauders-map`** package, incorporating the new steps and project details. I've renamed the package and made the necessary adjustments:
 
 ---
 
 <div align="center">
 
-# 🧭 Xrite.Wpf.Navigation
+# 🧭 **Kocew\.Marauders-Map**
 
 **A lightweight, region-based navigation system for WPF applications**
 Built with `CommunityToolkit.Mvvm` for modern MVVM development.
 
-[![NuGet](https://img.shields.io/nuget/v/Xrite.Wpf.Navigation.svg)](https://www.nuget.org/packages/Xrite.Wpf.Navigation)
-[![Downloads](https://img.shields.io/nuget/dt/Xrite.Wpf.Navigation.svg)](https://www.nuget.org/packages/Xrite.Wpf.Navigation)
+[![NuGet](https://img.shields.io/nuget/v/kocew.marauders-map.svg)](https://www.nuget.org/packages/kocew.marauders-map)
+[![Downloads](https://img.shields.io/nuget/dt/kocew.marauders-map.svg)](https://www.nuget.org/packages/kocew.marauders-map)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 </div>
@@ -19,7 +19,7 @@ Built with `CommunityToolkit.Mvvm` for modern MVVM development.
 
 ## ✅ Overview
 
-`Xrite.Wpf.Navigation` is a simple, region-based navigation system for WPF. It allows for modular, clean MVVM application design, enabling navigation between views using named regions and message-passing.
+`Kocew.Marauders-Map` is a simple, region-based navigation system for WPF applications. It helps you design modular, clean MVVM applications by enabling navigation between views using named regions and message-passing. With this package, navigating through your application becomes effortless and intuitive.
 
 ---
 
@@ -28,14 +28,14 @@ Built with `CommunityToolkit.Mvvm` for modern MVVM development.
 ### 1. Install the NuGet Package
 
 ```bash
-dotnet add package Xrite.Wpf.Navigation
+dotnet add package kocew.marauders-map
 ```
 
 ---
 
 ### 2. Register Views and ViewModels
 
-In your `App.xaml.cs` (or `App()` constructor):
+In your `App.xaml.cs` (or `App()` constructor), register all the necessary ViewModels and Views, as well as the navigation system:
 
 ```csharp
 var services = new ServiceCollection();
@@ -54,9 +54,9 @@ services.AddSingleton<NestedSecondView>();
 services.AddSingleton<MainWindow>();
 
 // Register the navigation system
-services.AddNavigation();
+services.AddMaraudersMap();
 
-// Build service provider and set it
+// Build the service provider and set it
 Services = services.BuildServiceProvider();
 NavigationProvider.Services = Services;
 
@@ -68,10 +68,12 @@ Services.GetRequiredService<MainWindow>().Show();
 
 ### 3. Define Navigation Region in Your Window
 
+In the `MainWindow.xaml`, define a **`ContentControl`** for the navigation region and bind it to a named region:
+
 ```xml
-<Window xmlns:nav="clr-namespace:Xrite.Wpf.Navigation;assembly=Xrite.Wpf.Navigation" ...>
+<Window xmlns:map="clr-namespace:Kocew.MaraudersMap;assembly=Kocew.Marauders-Map" ...>
     <!-- The Name must match the region name you navigate to -->
-    <ContentControl nav:NavigationRegion.Name="HomeView" nav:NavigationRegion.IsDefault="True"/>
+    <ContentControl map:MarauderNavRegion.Name="HomeView" map:MarauderNavRegion.IsDefault="True"/>
 </Window>
 ```
 
@@ -79,14 +81,16 @@ Services.GetRequiredService<MainWindow>().Show();
 
 ### 4. Setup Nested Regions in Views (Optional)
 
+For nested regions, add **`ContentControl`** elements within your `UserControl` to represent different sections of the UI that will be navigated to separately.
+
 ```xml
-<UserControl ... xmlns:nav="clr-namespace:Xrite.Wpf.Navigation;assembly=Xrite.Wpf.Navigation">
+<UserControl ... xmlns:map="clr-namespace:Kocew.MaraudersMap;assembly=Kocew.Marauders-Map">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        
+
         <StackPanel>
             <TextBlock Text="{Binding Title}" FontSize="20" Margin="10"/>
             <Button Content="Settings" Command="{Binding NavigateCommand}" CommandParameter="{x:Type root:SettingsViewModel}" />
@@ -95,7 +99,7 @@ Services.GetRequiredService<MainWindow>().Show();
         </StackPanel>
 
         <!-- Nested region -->
-        <ContentControl Grid.Row="1" nav:NavigationRegion.Name="InnerContent"/>
+        <ContentControl Grid.Row="1" map:MarauderNavRegion.Name="InnerContent"/>
     </Grid>
 </UserControl>
 ```
@@ -103,6 +107,8 @@ Services.GetRequiredService<MainWindow>().Show();
 ---
 
 ### 5. Navigate from ViewModel
+
+In your **ViewModel**, use `WeakReferenceMessenger` to send **navigation messages** to navigate between views or regions.
 
 ```csharp
 public partial class HomeViewModel : ObservableRecipient
@@ -127,9 +133,10 @@ public partial class HomeViewModel : ObservableRecipient
 
 ## 💡 Notes
 
-* ViewModels and Views must be registered in the DI container.
-* Regions are identified by name. The default region should match the name you navigate to if not explicitly specified.
-* Use `WeakReferenceMessenger` to trigger navigation from anywhere in your app.
+- ViewModels and Views must be registered in the **Dependency Injection (DI)** container.
+- Regions are identified by **name**. If no region name is explicitly provided, the default region will be used.
+- Use **`WeakReferenceMessenger`** to trigger navigation messages throughout your application.
+- The `MarauderNavRegion` control will automatically handle view switching based on messages sent.
 
 ---
 
@@ -154,12 +161,12 @@ YourApp/
 
 ## 📌 Roadmap
 
-* ✅ Region-based content control
-* ✅ Convention-based ViewModel ↔ View mapping
-* 🔜 Navigation history
-* 🔜 Lifecycle events (OnNavigatedTo, OnNavigatedFrom)
-* 🔜 Parameter passing
-* 🔜 Animated transitions
+- ✅ Region-based content control
+- ✅ Convention-based ViewModel ↔ View mapping
+- 🔜 Navigation history
+- 🔜 Lifecycle events (OnNavigatedTo, OnNavigatedFrom)
+- 🔜 Parameter passing
+- 🔜 Animated transitions
 
 ---
 
