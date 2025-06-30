@@ -10,7 +10,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
         <PackageId>kocew.marauders-map</PackageId>
-        <Version>2.0.1</Version>
+        <Version>2.0.2</Version>
         <Authors>Zhivko Kocev</Authors>
         <Company>Kocew</Company>
         <Description>A lightweight navigation solution for WPF applications.</Description>
