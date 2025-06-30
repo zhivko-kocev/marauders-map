@@ -199,7 +199,7 @@ YourApp/
 
 Want to see it in action? Check out our example project:
 
-[![Test Project](https://img.shields.io/badge/🚀_Try_Demo-blue?style=for-the-badge)](https://github.com/your-username/marauders-test-project)
+[![Test Project](https://img.shields.io/badge/🚀_Try_Demo-blue?style=for-the-badge)](https://github.com/zhivko-kocev/marauders-test-project)
 
 ---
 
