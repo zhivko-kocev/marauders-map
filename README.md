@@ -228,4 +228,4 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 [![GitHub stars](https://img.shields.io/github/stars/zhivko-kocev/marauders-map?style=social)](https://github.com/zhivko-kocev/marauders-map)
 
 </div>
-```
+
