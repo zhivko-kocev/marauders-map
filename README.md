@@ -1,86 +1,104 @@
 <div align="center">
 
-# 🧭 **Kocew\.Marauders-Map**
+# 🧭 Kocew.Marauders-Map
 
 **A lightweight, region-based navigation system for WPF applications**
-Built with `CommunityToolkit.Mvvm` for modern MVVM development.
 
-[![NuGet](https://img.shields.io/nuget/v/kocew.marauders-map.svg)](https://www.nuget.org/packages/kocew.marauders-map)
-[![Downloads](https://img.shields.io/nuget/dt/kocew.marauders-map.svg)](https://www.nuget.org/packages/kocew.marauders-map)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![NuGet](https://img.shields.io/nuget/v/kocew.marauders-map?style=flat-square&logo=nuget)](https://www.nuget.org/packages/kocew.marauders-map)
+[![Downloads](https://img.shields.io/nuget/dt/kocew.marauders-map?style=flat-square)](https://www.nuget.org/packages/kocew.marauders-map)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![.NET](https://img.shields.io/badge/.NET-6.0%2B-purple?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
+
+_Built with CommunityToolkit.Mvvm for modern MVVM development_
+
+[Quick Start](#-quick-setup) • [Documentation](#-notes) • [Examples](#-try-it-out) • [License](#-license)
 
 </div>
 
 ---
 
-## ✅ Overview
+## ✨ Overview
 
-`Kocew.Marauders-Map` is a simple, region-based navigation system for WPF applications. It helps you design modular, clean MVVM applications by enabling navigation between views using named regions and message-passing. With this package, navigating through your application becomes effortless and intuitive.
+**Kocew.Marauders-Map** simplifies navigation in WPF by providing a region-based system to manage views via view models and named regions. It leverages `WeakReferenceMessenger` to decouple navigation logic, helping you build clean and modular MVVM applications effortlessly.
+
+### 🎯 Key Features
+
+- 🔄 **Region-based Navigation** - Organize your app into logical regions
+- 🧩 **MVVM-First** - Built specifically for MVVM pattern with CommunityToolkit
+- 🔗 **Loosely Coupled** - Uses WeakReferenceMessenger for clean separation
+- ⚡ **Zero Boilerplate** - Minimal setup, maximum productivity
+- 🎨 **Declarative** - Define navigation directly in XAML
 
 ---
 
 ## 🚀 Quick Setup
 
-### 1. Install the NuGet Package
+### 1️⃣ Install the NuGet Package
 
 ```bash
 dotnet add package kocew.marauders-map
 ```
 
----
+### 2️⃣ Register Views and ViewModels
 
-### 2. Register Views and ViewModels
-
-In your `App.xaml.cs` (or `App()` constructor), register all the necessary ViewModels and Views, as well as the navigation system:
+In your `App.xaml.cs`, register your view models, views, and the navigation system:
 
 ```csharp
-var services = new ServiceCollection();
+public partial class App
+{
+    public static IServiceProvider Services { get; private set; } = null!;
 
-// Register all ViewModels
-services.AddSingleton<HomeViewModel>();
-services.AddSingleton<SettingsViewModel>();
-services.AddSingleton<NestedFirstViewModel>();
-services.AddSingleton<NestedSecondViewModel>();
+    public App()
+    {
+        var services = new ServiceCollection();
 
-// Register all Views
-services.AddSingleton<HomeView>();
-services.AddSingleton<SettingsView>();
-services.AddSingleton<NestedFirstView>();
-services.AddSingleton<NestedSecondView>();
-services.AddSingleton<MainWindow>();
+        // Register ViewModels
+        services.AddSingleton<HomeViewModel>();
+        services.AddSingleton<SettingsViewModel>();
+        services.AddSingleton<NestedFirstViewModel>();
+        services.AddSingleton<NestedSecondViewModel>();
 
-// Register the navigation system
-services.AddMaraudersMap();
+        // Register Views
+        services.AddSingleton<HomeView>();
+        services.AddSingleton<SettingsView>();
+        services.AddSingleton<NestedFirstView>();
+        services.AddSingleton<NestedSecondView>();
 
-// Build the service provider and set it
-Services = services.BuildServiceProvider();
-NavigationProvider.Services = Services;
+        services.AddSingleton<MainWindow>();
 
-// Show main window
-Services.GetRequiredService<MainWindow>().Show();
+        Services = services.BuildServiceProvider();
+        NavigationProvider.Services = Services;
+
+        Services.GetRequiredService<MainWindow>().Show();
+    }
+}
 ```
 
----
+### 3️⃣ Define Navigation Region
 
-### 3. Define Navigation Region in Your Window
-
-In the `MainWindow.xaml`, define a **`ContentControl`** for the navigation region and bind it to a named region (StartupViewModel is set only on the Control u want to be the host when the app is starting):
+In your `MainWindow.xaml`, declare a ContentControl with the region name and startup view model:
 
 ```xml
-<Window xmlns:map="clr-namespace:Kocew.MaraudersMap;assembly=Kocew.Marauders-Map" ...>
-    <ContentControl nav:NavigationRegion.RegionName="MainContent"
-                    nav:NavigationRegion.StartupViewModel="{x:Type vm:HomeViewModel}"/>
+<Window
+    xmlns:maraudersServices="clr-namespace:Kocew.WPF.MaraudersMap.MaraudersServices;assembly=Kocew.WPF.MaraudersMap"
+    ... >
+
+    <ContentControl
+        maraudersServices:NavigationRegion.RegionName="MainContent"
+        maraudersServices:NavigationRegion.StartupViewModel="{x:Type home:HomeViewModel}" />
+
 </Window>
 ```
 
----
+### 4️⃣ Setup Navigation Waypoints
 
-### 4. Setup Nested Regions in Views (Optional)
-
-For nested regions, add **`ContentControl`** elements within your `UserControl` to represent different sections of the UI that will be navigated to separately.
+In your views, define navigation waypoints with attached properties:
 
 ```xml
-<UserControl ... xmlns:map="clr-namespace:Kocew.MaraudersMap;assembly=Kocew.Marauders-Map">
+<UserControl
+    xmlns:maraudersServices="clr-namespace:Kocew.WPF.MaraudersMap.MaraudersServices;assembly=Kocew.WPF.MaraudersMap"
+    ... >
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -88,89 +106,126 @@ For nested regions, add **`ContentControl`** elements within your `UserControl` 
         </Grid.RowDefinitions>
 
         <StackPanel>
-            <Button Content="Settings" Command="{Binding NavigateCommand}" CommandParameter="{x:Type root:SettingsViewModel}" />
-            <Button Content="FirstNested" Command="{Binding NestedNavigateCommand}" CommandParameter="{x:Type nested:NestedFirstViewModel}" />
-            <Button Content="SecondNested" Command="{Binding NestedNavigateCommand}" CommandParameter="{x:Type nested:NestedSecondViewModel}" />
+            <TextBlock Text="{Binding Title}" FontSize="20" Margin="10" />
+
+            <!-- Navigate to Settings in MainContent region -->
+            <Button
+                Content="Settings"
+                maraudersServices:NavigationWaypoint.ViewModel="{x:Type root:SettingsViewModel}"
+                maraudersServices:NavigationWaypoint.Region="MainContent" />
+
+            <!-- Navigate to nested views in InnerContent region -->
+            <Button
+                Content="First Nested"
+                maraudersServices:NavigationWaypoint.Region="InnerContent"
+                maraudersServices:NavigationWaypoint.ViewModel="{x:Type home:NestedFirstViewModel}" />
+
+            <Button
+                Content="Second Nested"
+                maraudersServices:NavigationWaypoint.Region="InnerContent"
+                maraudersServices:NavigationWaypoint.ViewModel="{x:Type home:NestedSecondViewModel}" />
         </StackPanel>
 
-        <!-- Nested region -->
-        <ContentControl Grid.Row="1" map:MarauderNavRegion.Name="InnerContent"/>
+        <!-- Nested region for inner navigation -->
+        <ContentControl
+            maraudersServices:NavigationRegion.RegionName="InnerContent"
+            Grid.Row="1" />
     </Grid>
+
 </UserControl>
 ```
 
+> 🎉 **That's it!** All navigation logic happens automatically behind the scenes — no command bindings required.
+
 ---
 
-### 5. Navigate from ViewModel
+## 💡 Key Concepts
 
-In your **ViewModel**, use `WeakReferenceMessenger` to send **navigation messages** to navigate between views or regions.
+| Concept                | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| **NavigationRegion**   | Defines a content area that can display different views      |
+| **NavigationWaypoint** | Attached property for buttons/controls to trigger navigation |
+| **Region Names**       | String identifiers for different navigation regions          |
+| **Startup ViewModel**  | The initial view(model) displayed when the application loads |
 
-```csharp
-public partial class HomeViewModel : ObservableRecipient
-{
-    public string Title => "Welcome to Home View!";
+### 📋 Requirements
 
-    [RelayCommand]
-    private static void Navigate(Type viewModel)
-    {
-        WeakReferenceMessenger.Default.Send(new NavigateMessage(viewModel, "HomeView"));
-    }
+- ✅ Register all Views and ViewModels with your DI container
+- ✅ Use `NavigationRegion.RegionName` to mark content areas
+- ✅ Use `NavigationRegion.StartupViewModel` for default view on startup (must have one)
+- ✅ Use `NavigationWaypoint.Region` to tell where will the button navigate to
+- ✅ Use `NavigationWaypoint.ViewModel` to tell which view model to bind to the view
+- ✅ Navigation uses `WeakReferenceMessenger` internally for loose coupling
 
-    [RelayCommand]
-    private static void NestedNavigate(Type viewModel)
-    {
-        WeakReferenceMessenger.Default.Send(new NavigateMessage(viewModel, "InnerContent"));
-    }
-}
+---
+
+## 🗺️ Roadmap
+
+Track our progress and upcoming features:
+
+| Status | Feature                                       | Description                                |
+| ------ | --------------------------------------------- | ------------------------------------------ |
+| ✅     | **Region-based content control**              | Core navigation system with named regions  |
+| ✅     | **Convention-based ViewModel ↔ View mapping** | Automatic view resolution from view models |
+| 🔜     | **Parameter passing**                         | Pass data between views during navigation  |
+| 🔜     | **Navigation history**                        | Back/forward navigation with history stack |
+| 🔜     | **Lifecycle events**                          | `OnNavigatedTo`, `OnNavigatedFrom` hooks   |
+| 🔜     | **Animated transitions**                      | Smooth animations between view changes     |
+
+> 💡 **Have a feature request?** [Open an issue](https://github.com/zhivko-kocev/marauders-map/issues) and let us know what you'd like to see!
+
+---
+
+## 📁 Suggested Project Structure
+
 ```
-
----
-
-## 💡 Notes
-
-- ViewModels and Views must be registered in the **Dependency Injection (DI)** container.
-- Regions are identified by **name**. If no region name is explicitly provided, the default region will be used.
-- Use **`WeakReferenceMessenger`** to trigger navigation messages throughout your application.
-- The `MarauderNavRegion` control will automatically handle view switching based on messages sent.
-
----
-
-## 📁 Suggested Folder Structure
-
-```plaintext
 YourApp/
-├── Views/
-│   ├── HomeView.xaml
-│   ├── SettingsView.xaml
-│   └── ...
-├── ViewModels/
-│   ├── HomeViewModel.cs
-│   ├── SettingsViewModel.cs
-│   └── ...
-├── App.xaml.cs
-├── MainWindow.xaml
-└── ...
+├── 📁 Views/
+│   ├── 🖼️ HomeView.xaml
+│   ├── 🖼️ SettingsView.xaml
+│   └── 🖼️ ...
+├── 📁 ViewModels/
+│   ├── 🧠 HomeViewModel.cs
+│   ├── 🧠 SettingsViewModel.cs
+│   └── 🧠 ...
+├── 📄 App.xaml.cs
+├── 🪟 MainWindow.xaml
+└── 📄 ...
 ```
 
 ---
 
-## 📌 Roadmap
+## 🧪 Try It Out
 
-- ✅ Region-based content control
-- ✅ Convention-based ViewModel ↔ View mapping
-- 🔜 Navigation history
-- 🔜 Lifecycle events (OnNavigatedTo, OnNavigatedFrom)
-- ✅ Parameter passing
-- 🔜 Animated transitions
+Want to see it in action? Check out our example project:
+
+[![Test Project](https://img.shields.io/badge/🚀_Try_Demo-blue?style=for-the-badge)](https://github.com/your-username/marauders-test-project)
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-Licensed under the [MIT License](LICENSE).
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-<div align="center">Made with ❤️ for the WPF community</div>
+<div align="center">
 
----
+**Made with ❤️ for the WPF community**
+
+[![GitHub stars](https://img.shields.io/github/stars/zhivko-kocev/marauders-map?style=social)](https://github.com/zhivko-kocev/marauders-map)
+
+</div>
+```
