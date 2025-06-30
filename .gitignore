@@ -12,3 +12,4 @@ out/
 test-*.xml
 *.log
 packages/
+nugetreadme.md
