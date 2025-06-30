@@ -1,0 +1,14 @@
+bin/
+obj/
+out/  
+.idea/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vsix
+.reSharper/
+test-*.xml
+*.log
+packages/

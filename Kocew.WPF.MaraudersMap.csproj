@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <ImplicitUsings>enable</ImplicitUsings>
+
+        <PackageId>kocew.marauders-map</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Zhivko Kocev</Authors>
+        <Company>Kocew</Company>
+        <Description>A lightweight navigation solution for WPF applications.</Description>
+        <PackageTags>navigation,wpf,marauders,map</PackageTags>
+        <RepositoryUrl>https://github.com/zhivko-kocev/marauders-map</RepositoryUrl>
+
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+    </ItemGroup>
+
+</Project>
