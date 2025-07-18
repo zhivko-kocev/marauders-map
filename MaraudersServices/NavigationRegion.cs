@@ -52,8 +52,9 @@ public class NavigationRegion
 
             if (control.Content is Control { DataContext: IMaraudersAware vmf })
             {
-                data = vmf.OnNavigatedFrom();
-                sender = vmf.GetType();
+               sender = vmf.GetType();
+               if (sender == msg.ViewModelType) return;
+               data = vmf.OnNavigatedFrom();
             }
 
             sender ??= typeof(Application);
